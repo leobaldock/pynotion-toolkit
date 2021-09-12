@@ -1,7 +1,7 @@
 Metadata-Version: 1.0
-Name: notion-toolkit
+Name: notiontoolkit
 Version: 0.1.0
-Summary: A suite of tools for interacting with Notion via Python code.
+Summary: A suite of tools for interacting with Notion via Python.
 Home-page: UNKNOWN
 Author: Leo Baldock
 Author-email: UNKNOWN
