@@ -1,6 +1,8 @@
 README.md
 setup.py
 notiontoolkit/__init__.py
+notiontoolkit/base.py
+notiontoolkit/constants.py
 notiontoolkit/tqdm_notion.py
 notiontoolkit.egg-info/PKG-INFO
 notiontoolkit.egg-info/SOURCES.txt

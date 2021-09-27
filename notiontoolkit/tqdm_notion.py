@@ -5,8 +5,7 @@ import threading
 from time import time
 from datetime import datetime
 from tqdm.auto import tqdm as tqdm_auto
-
-BASE_URL = "https://api.notion.com/v1"
+from .constants import BASE_URL
 
 def char_bar(value, filled="▓", empty="░"):
     """
@@ -57,7 +56,8 @@ class tqdm_notion(tqdm_auto):
             self.progress_property = kwargs.pop('progress_property', "Progress")
             self.complete_char = kwargs.pop('complete_char', "▓")
             self.incomplete_char = kwargs.pop('incomplete_char', "░")
-            self.start_time_property = kwargs.pop('start_time_property', "Start")
+            self.date_property = kwargs.pop('date_property', "Date")
+            self.time_remaining_property = kwargs.pop('time_remaining', "Time Remaining")
             self.update_interval_secs = kwargs.pop('update_interval_secs', 1)
 
             self.last_update_time = time()
@@ -88,15 +88,20 @@ class tqdm_notion(tqdm_auto):
                         ]
                     },
                     self.progress_property: {
-                    "rich_text": [
-                        {
-                            "type": "text",
-                            "text": {
-                                "content": f"{self.bar} {self.percent_complete}%"
+                        "rich_text": [
+                            {
+                                "type": "text",
+                                "text": {
+                                    "content": f"{self.bar} {self.percent_complete}%"
+                                }
                             }
+                        ]
+                    },
+                    self.date_property: {
+                        "date": {
+                            "start": datetime.now().astimezone().isoformat()
                         }
-                    ]
-                }
+                    }
                 }
             }))
             self.page_id = page.json()["id"]
@@ -140,6 +145,16 @@ class tqdm_notion(tqdm_auto):
                             "type": "text",
                             "text": {
                                 "content": f"{bar} {self.percent_complete}%"
+                            }
+                        }
+                    ]
+                },
+                self.time_remaining_property: {
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": str(self).split('<')[-1].split(',')[0]
                             }
                         }
                     ]
